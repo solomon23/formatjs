@@ -1,0 +1,47 @@
+{
+  "name": "react-intl-cli",
+  "version": "0.1.0",
+  "description": "A CLI for react-intl.",
+  "keywords": [
+    "intl",
+    "i18n",
+    "internationalization",
+    "locale",
+    "localization",
+    "globalization",
+    "react",
+    "reactjs",
+    "format",
+    "formatting",
+    "translate",
+    "translation"
+  ],
+  "author": "Linjie Ding <linjie@airtable.com>",
+  "homepage": "https://github.com/formatjs/formatjs",
+  "license": "BSD-3-Clause",
+  "bin": {
+    "react-intl": "bin/react-intl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/formatjs/formatjs.git"
+  },
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "tsc -p tsconfig.json",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.138",
+    "babel-plugin-react-intl": "^4.1.18",
+    "commander": "^3.0.1",
+    "lodash": "^4.17.15",
+    "loud-rejection": "^2.1.0"
+  },
+  "bugs": {
+    "url": "https://github.com/formatjs/formatjs/issues"
+  },
+  "engines": {
+    "node": "8.x || 10.x || 12.x"
+  }
+}

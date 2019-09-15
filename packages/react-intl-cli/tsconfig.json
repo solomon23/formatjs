@@ -1,13 +1,11 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "outDir": "dist",
+        // Targeting node >= 8
+        "target": "es2017",
+        "outDir": "lib",
         "rootDir": "src",
         "module": "commonjs",
-        "baseUrl": ".",
-        "paths": {
-            "intl-messageformat-parser": ["../intl-messageformat-parser"]
-        },
         "types": [
             "babel__core",
             "babel__generator",
@@ -28,7 +26,12 @@
             "stack-utils",
             "yargs"
         ],
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "paths": {
+            "babel-plugin-react-intl/*": ["../babel-plugin-react-intl/*"]
+        },
         "sourceMap": true
     },
-    "include": ["src/*.ts"]
+    "include": ["src/**/*.ts"]
 }

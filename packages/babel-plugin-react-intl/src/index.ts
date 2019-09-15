@@ -36,7 +36,7 @@ interface MessageDescriptor {
   description?: string;
 }
 
-type ExtractedMessageDescriptor = MessageDescriptor &
+export type ExtractedMessageDescriptor = MessageDescriptor &
   Partial<SourceLocation> & {file?: string};
 
 type MessageDescriptorPath = Record<
@@ -347,12 +347,17 @@ export default declare((api: any) => {
         },
         opts: {messagesDir},
       } = this;
-      const basename = p.basename(filename, p.extname(filename));
+      // If no filename is specified, that means this babel plugin is called programmatically
+      // via NodeJS API by other programs (e.g. by feeding us with file content directly). In
+      // this case we will only make extracted messages accessible via Babel result objects.
+      const basename = filename
+        ? p.basename(filename, p.extname(filename))
+        : null;
       const {ReactIntlMessages: messages} = this;
       const descriptors = Array.from(messages.values());
       state.metadata['react-intl'] = {messages: descriptors};
 
-      if (messagesDir && descriptors.length > 0) {
+      if (basename && messagesDir && descriptors.length > 0) {
         // Make sure the relative path is "absolute" before
         // joining it with the `messagesDir`.
         let relativePath = p.join(p.sep, p.relative(process.cwd(), filename));
