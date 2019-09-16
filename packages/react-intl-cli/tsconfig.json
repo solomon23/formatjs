@@ -6,6 +6,10 @@
         "outDir": "lib",
         "rootDir": "src",
         "module": "commonjs",
+        "esModuleInterop": true,
+        "noUnusedLocals": true,
+        "sourceMap": true,
+        "allowSyntheticDefaultImports": true,
         "types": [
             "babel__core",
             "babel__generator",
@@ -20,15 +24,11 @@
             "istanbul-reports",
             // Don't include mocha here
             "jest",
-            "jest-diff",
             "node",
             "resolve",
             "stack-utils",
             "yargs"
-        ],
-        "esModuleInterop": true,
-        "noUnusedLocals": true,
-        "sourceMap": true
+        ]
     },
     "include": ["src/**/*.ts"]
 }

@@ -4,7 +4,7 @@ import extract, {ExtractCLIOptions} from './extract';
 
 const KNOWN_COMMANDS = ['extract'];
 
-async function main() {
+async function main(argv: string[]) {
   loudRejection();
 
   const version = require('../package.json').version;
@@ -95,7 +95,8 @@ async function main() {
         'Opt-in to extract from `intl.formatMessage` call with the same restrictions, e.g: has ',
         "to be called with object literal such as `intl.formatMessage({ id: 'foo', defaultMessage: ",
         "'bar', description: 'baz'})`",
-      ].join('')
+      ].join(''),
+      false
     )
     .action(async (files: readonly string[], cmdObj: ExtractCLIOptions) => {
       await extract(files, {
@@ -106,14 +107,15 @@ async function main() {
         moduleSourceName: cmdObj.moduleSourceName,
         removeDefaultMessage: cmdObj.removeDefaultMessage,
         additionalComponentNames: cmdObj.additionalComponentNames,
+        extractFromFormatMessageCall: cmdObj.extractFromFormatMessageCall,
       });
       process.exit(0);
     });
 
-  if (process.argv.length < 3) {
+  if (argv.length < 3) {
     commander.help();
   } else {
-    commander.parse(process.argv);
+    commander.parse(argv);
   }
 }
 export default main;
