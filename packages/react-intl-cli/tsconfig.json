@@ -27,10 +27,7 @@
             "yargs"
         ],
         "esModuleInterop": true,
-        "baseUrl": ".",
-        "paths": {
-            "babel-plugin-react-intl/*": ["../babel-plugin-react-intl/*"]
-        },
+        "noUnusedLocals": true,
         "sourceMap": true
     },
     "include": ["src/**/*.ts"]

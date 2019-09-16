@@ -23,6 +23,9 @@ import {
   V8IntrinsicIdentifier,
 } from '@babel/types';
 import {NodePath} from '@babel/traverse';
+import validate from 'schema-utils';
+import OPTIONS_SCHEMA from './options.schema.json';
+import {OptionsSchema} from './options.js';
 
 const DEFAULT_COMPONENT_NAMES = ['FormattedMessage', 'FormattedHTMLMessage'];
 
@@ -43,18 +46,6 @@ type MessageDescriptorPath = Record<
   keyof MessageDescriptor,
   NodePath<StringLiteral> | undefined
 >;
-
-export interface Opts {
-  moduleSourceName?: string;
-  enforceDefaultMessage?: boolean;
-  enforceDescriptions?: boolean;
-  extractSourceLocation?: boolean;
-  messagesDir: string;
-  overrideIdFn?(id: string, defaultMessage: string, descriptor: string): string;
-  removeDefaultMessage?: boolean;
-  extractFromFormatMessageCall?: boolean;
-  additionalComponentNames?: string[];
-}
 
 // From https://github.com/babel/babel/blob/master/packages/babel-core/src/transformation/plugin-pass.js
 interface PluginPass<O> {
@@ -189,7 +180,7 @@ function createMessageDescriptor(
 function evaluateMessageDescriptor(
   descriptorPath: MessageDescriptorPath,
   isJSXSource = false,
-  overrideIdFn?: Opts['overrideIdFn']
+  overrideIdFn?: OptionsSchema['overrideIdFn']
 ) {
   let id = getMessageDescriptorValue(descriptorPath.id);
   const defaultMessage = getICUMessageValue(descriptorPath.defaultMessage, {
@@ -221,7 +212,7 @@ function storeMessage(
     enforceDescriptions,
     enforceDefaultMessage = true,
     extractSourceLocation,
-  }: Opts,
+  }: OptionsSchema,
   filename: string,
   messages: Map<string, ExtractedMessageDescriptor>
 ) {
@@ -317,8 +308,12 @@ function assertObjectExpression(
   return true;
 }
 
-export default declare((api: any) => {
+export default declare((api: any, options: OptionsSchema) => {
   api.assertVersion(7);
+
+  validate(OPTIONS_SCHEMA, options, 'options');
+  const {messagesDir} = options;
+
   /**
    * Store this in the node itself so that multiple passes work. Specifically
    * if we remove `description` in the 1st pass, 2nd pass will fail since
@@ -345,7 +340,6 @@ export default declare((api: any) => {
         file: {
           opts: {filename},
         },
-        opts: {messagesDir},
       } = this;
       // If no filename is specified, that means this babel plugin is called programmatically
       // via NodeJS API by other programs (e.g. by feeding us with file content directly). In
@@ -585,5 +579,5 @@ export default declare((api: any) => {
         }
       },
     },
-  } as PluginObj<PluginPass<Opts> & State>;
+  } as PluginObj<PluginPass<OptionsSchema> & State>;
 });

@@ -29,7 +29,7 @@
   "scripts": {
     "clean": "rimraf lib",
     "build": "tsc -p tsconfig.json",
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "cross-env TS_NODE_PROJECT=./tsconfig.json cross-env NODE_ENV=test jest"
   },
   "dependencies": {
     "@types/lodash": "^4.14.138",

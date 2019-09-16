@@ -1,9 +1,10 @@
-import {ExtractedMessageDescriptor, Opts} from 'babel-plugin-react-intl/dist';
+import {ExtractedMessageDescriptor} from 'babel-plugin-react-intl/dist';
+import {OptionsSchema} from 'babel-plugin-react-intl/dist/options';
 import * as babel from '@babel/core';
-import {warn, getStdinAsString, clearLine} from './console_utils';
+import {warn, getStdinAsString} from './console_utils';
 import keyBy from 'lodash/keyBy';
 
-export type ExtractCLIOptions = Omit<Opts, 'overrideIdFn'>;
+export type ExtractCLIOptions = Omit<OptionsSchema, 'overrideIdFn'>;
 
 function getBabelConfig(
   reactIntlOptions: ExtractCLIOptions,

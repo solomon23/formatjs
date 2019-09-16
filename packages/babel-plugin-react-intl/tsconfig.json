@@ -28,7 +28,8 @@
             "stack-utils",
             "yargs"
         ],
-        "sourceMap": true
+        "sourceMap": true,
+        "esModuleInterop": true
     },
     "include": ["src/*.ts"]
 }
