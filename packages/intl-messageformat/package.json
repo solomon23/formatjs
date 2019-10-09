@@ -41,6 +41,7 @@
   "scripts": {
     "benchmark": "ts-node --project ./tsconfig.cjs.json tests/benchmark",
     "build": "npm run tsc && npm run rollup",
+    "prepare": "npm run build",
     "clean": "rimraf dist lib",
     "karma:ci": "karma start karma.conf-ci.js",
     "karma:local": "karma start karma.conf.js",
